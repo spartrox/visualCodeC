@@ -45,12 +45,19 @@ namespace Domain
 
         public void AddReservation(Reservation reservation)
         {
+            if (!reservation.TimeSlot.IsBetween(this.Begin, this.End))
+                throw new CantinaException("Reservation not in schedule");
+
+            if (_reservedUsers.Contains(reservation.User))
+                throw new CantinaException("User already reserved");
+
+            // if (_reservedUsers >= MaxUsers)
+            //    throw new CantinaException("Too much people !");
+
             _reservations.Add((reservation.TimeSlot.Begin, reservation.User), reservation);
             _reservedUsers.Add(reservation.User);
-        }
 
-        public User User { get; private init; }
-        public TimeSlot TimeSlot { get; private init; }
+        }
 
         public IEnumerable<Reservation> ReadReservations() => _reservations.Values;
 

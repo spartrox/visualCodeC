@@ -25,18 +25,18 @@ namespace Domain.Tests
         private Cantina GetTestCantina(int maxUsers = 1)
         {
             var cantina = new Cantina(maxUsers, Cantina.DEFAULT_BEGIN, Cantina.DEFAULT_END);
-            cantina.AddReservation(new Reservation(new User("user"), new TimeSlot(11,30,15)));
+            cantina.AddReservation(new Reservation(new User("user"), new TimeSlot(11, 30, 15)));
             return cantina;
         }
-        
+
         [Fact]
         public void CantinaCanStoreMultipleReservationsToTheSamePeriod()
         {
             var cantina = GetTestCantina(2);
-            cantina.AddReservation(new Reservation(new User("user2"), new TimeSlot(11,30,15)));
+            cantina.AddReservation(new Reservation(new User("user2"), new TimeSlot(11, 30, 15)));
             // no exception
         }
-        
+
         [Fact]
         public void CantinaCanStoreReservation()
         {
@@ -52,9 +52,9 @@ namespace Domain.Tests
             Should.Throw<CantinaException>(() =>
                 cantina.AddReservation(new Reservation(new User("doe"), new TimeSlot(11, 12, 13))))
                 .Message.ShouldBe("Reservation not in schedule");
-            
+
             Should.Throw<CantinaException>(() =>
-                    cantina.AddReservation(new Reservation(new User("doe"), new TimeSlot(14,20, 30))))
+                    cantina.AddReservation(new Reservation(new User("doe"), new TimeSlot(14, 20, 30))))
                 .Message.ShouldBe("Reservation not in schedule");
         }
 
@@ -63,11 +63,11 @@ namespace Domain.Tests
         {
             var cantina = GetTestCantina();
             Should.Throw<CantinaException>(() =>
-                    cantina.AddReservation(new Reservation(new User("user"), new TimeSlot(14, 12, 10))))
-                .Message.ShouldBe("User already reserved");
-            
-            cantina.AddReservation(new Reservation(new User("user2"), new TimeSlot(13,30,15)));
-            
+                                cantina.AddReservation(new Reservation(new User("user"), new TimeSlot(14, 12, 10))))
+                            .Message.ShouldBe("User already reserved");
+
+            cantina.AddReservation(new Reservation(new User("user2"), new TimeSlot(13, 30, 15)));
+
             Should.Throw<CantinaException>(() =>
                     cantina.AddReservation(new Reservation(new User("user3"), new TimeSlot(13, 30, 15))))
                 .Message.ShouldBe("Too much people !");
@@ -77,8 +77,8 @@ namespace Domain.Tests
             Should.Throw<CantinaException>(() =>
                     cantina.AddReservation(new Reservation(new User("user3"), new TimeSlot(13, 40, 5))))
                 .Message.ShouldBe("Too much people !");
-            
-            cantina.AddReservation(new Reservation(new User("user3"), new TimeSlot(14,0,5)));
+
+            cantina.AddReservation(new Reservation(new User("user3"), new TimeSlot(14, 0, 5)));
         }
     }
 }
